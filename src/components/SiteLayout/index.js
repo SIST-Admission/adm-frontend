@@ -2,7 +2,7 @@ import { Layout } from 'antd';
 import './index.css';
 import { Navbar,Text } from "@nextui-org/react";
 
-const { Header, Content, Footer } = Layout;
+const { Footer } = Layout;
 
 const SiteLayout = ({ children }) => {
 
@@ -25,7 +25,7 @@ const SiteLayout = ({ children }) => {
             }}>Admission Portal | 2023 Admissions</span>
           </Text>
         </Navbar.Brand>
-        <Navbar.Content hideIn="xs" variant="highlight-rounded" style={{
+        <Navbar.Content hideIn="xs" variant="highlight" style={{
           fontFamily: "helvetica",
         }}>
           <Navbar.Link href="/" isActive>Home</Navbar.Link>
