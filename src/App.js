@@ -1,8 +1,11 @@
 import './App.css';
+import SiteLayout from './components/SiteLayout';
 
 function App() {
   return (
-    <div>SIST ADM</div>
+    <SiteLayout>
+     
+    </SiteLayout>
   );
 }
 
