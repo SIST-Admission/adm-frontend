@@ -1,0 +1,32 @@
+.application-dashboard-content{
+  padding: 0 1em;
+
+  h1{
+    font-size: 1.5em;
+    font-weight: lighter;
+    font-family: 'helvetica';
+    margin: 0;
+    padding: .5em;
+    text-align: center;
+  }
+
+  .dashboard-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+   
+    .application-status{
+      width: 64%;
+    }
+
+    .user-details{
+      width: 30%;
+      .ant-descriptions-item{
+        padding: .4em 1em;
+        padding-top: 0;
+      }
+    }
+  }
+
+ 
+}

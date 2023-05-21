@@ -1,11 +1,37 @@
 import { Layout } from 'antd';
-import './index.css';
+import './index.scss';
 import { Navbar,Text } from "@nextui-org/react";
 import sistLogo from './logo.jpg'
+import { useSelector, useDispatch } from 'react-redux';
+import {   useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { setUser } from '../../reducers/userReducer';
 
 const { Footer } = Layout;
 
 const SiteLayout = ({ children }) => {
+  const navigate = useNavigate();
+  const {pathname} = useLocation();
+  const dispatch = useDispatch();
+  const userDetails = useSelector(state => state.userStore.user);
+
+  const logout = async () => {
+    try {
+      await axios.get(process.env.REACT_APP_BACKEND_BASEPATH + '/users/logout', {
+        withCredentials: true
+      })
+      dispatch(setUser({
+        isSignedIn: false,
+        isAdmin: false,
+        user: null
+      }))
+      navigate('/login');
+    } catch (error) {
+      alert("Error logging out");
+      console.log(error);
+    }
+  }
+
 
   return (
     <>
@@ -29,9 +55,21 @@ const SiteLayout = ({ children }) => {
         <Navbar.Content hideIn="xs" variant="highlight" style={{
           fontFamily: "helvetica",
         }}>
-          <Navbar.Link href="/" isActive>Home</Navbar.Link>
-          <Navbar.Link href="/" >Prospectus</Navbar.Link>
-          <Navbar.Link href="/" >Contact Us</Navbar.Link>
+
+          {userDetails?.isSignedIn ? (
+            <>
+              <Navbar.Link onClick={() => logout()} className='nav-link' isActive={pathname == '/logout'}>
+               Log out
+              </Navbar.Link>
+            </>
+          ) : (
+            <>
+            <Navbar.Link className='nav-link' onClick={() => navigate('/')} isActive={pathname == '/'}>Home</Navbar.Link>
+            <Navbar.Link className='nav-link' onClick={() => navigate('/prospectus')} isActive={pathname == '/prospectus'}>Prospectus</Navbar.Link>
+            <Navbar.Link className='nav-link' onClick={() => navigate('/contactus')} isActive={pathname == '/contactus'}>Contact Us</Navbar.Link>  
+          </>
+          )}
+
         </Navbar.Content>
       </Navbar>
       <main style={{
