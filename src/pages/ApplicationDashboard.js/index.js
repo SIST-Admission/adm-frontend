@@ -2,9 +2,11 @@ import { Button, Card, Descriptions, Image, List } from 'antd';
 import './index.scss';
 import ApplicationStatus from './ApplicationStatus';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const ApplicationDashboard = () => {
   const userDetails = useSelector(state => state.userStore.user);
+  const navigate = useNavigate();
   return (
     <div className='application-dashboard-content'>
       <h1>Application Dashboard</h1>
@@ -35,7 +37,11 @@ const ApplicationDashboard = () => {
                 <Button style={{width: '48%'}}>Edit Details</Button>
                 <Button  style={{width: '48%'}}>Change Password</Button>
               </div>
-                <Button type="primary" style={{width: '100%', marginTop: '1em'}}>Continue Application</Button>
+                <Button
+                onClick={() => {
+                  navigate('/apply');
+                }}
+                 type="primary" style={{width: '100%', marginTop: '1em'}}>Continue Application</Button>
               </Card>
           </div>
           <div className='notifications' style={{marginTop: '1em'}}>

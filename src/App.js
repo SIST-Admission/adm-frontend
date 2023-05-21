@@ -8,6 +8,7 @@ import ProtectedRoute from './ProtectedRoute';
 import { setUser } from './reducers/userReducer'
 import { useDispatch } from 'react-redux';
 import ApplicationDashboard from './pages/ApplicationDashboard.js';
+import ApplicationForm from './pages/AppplicationForm';
 
 const SiteLayout = lazy(() => import('./components/SiteLayout'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -60,6 +61,7 @@ function App() {
           {/* Protected Routes */}
           <Route path='/bijay' element={<ProtectedRoute path="/bijay"><h1>Home</h1></ProtectedRoute>} />
           <Route path='/' element={<ProtectedRoute path="/"><ApplicationDashboard /></ProtectedRoute>} />
+          <Route path='/apply' element={<ProtectedRoute path="/"><ApplicationForm /></ProtectedRoute>} />
         </Routes>
       </Suspense>
     </SiteLayout>
