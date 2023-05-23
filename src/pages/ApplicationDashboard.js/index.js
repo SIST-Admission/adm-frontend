@@ -1,11 +1,50 @@
+import { useState, useEffect } from 'react';
 import { Button, Card, Descriptions, Image, List } from 'antd';
 import './index.scss';
 import ApplicationStatus from './ApplicationStatus';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const ApplicationDashboard = () => {
   const userDetails = useSelector(state => state.userStore.user);
+  
+  const [applicationDetails, setApplicationDetails] = useState({});
+  const [applicationDetailsLoading, setApplicationDetailsLoading] = useState(false);
+  const [current, setCurrent] = useState(0);
+
+  const fetchApplicationDetails = async () => {
+    setApplicationDetailsLoading(true);
+    let res;
+    try {
+      res = await axios.get(process.env.REACT_APP_BACKEND_BASEPATH + `/applications/${userDetails?.user?.id}`, {
+        withCredentials: true
+      });
+      setApplicationDetails(res.data);
+      if (res?.data?.basicDetails){
+        setCurrent(2);
+      }
+      setCurrent(1);
+      console.log("application Details", res.data);
+    } catch (error) {
+      if (res.status === 400 && res.data?.error?.message === 'Application does not exist') {
+        setApplicationDetails({});
+        setApplicationDetailsLoading(false);
+        return;
+      }
+      console.log(error);
+      alert('Something went wrong');
+    }finally {
+      setApplicationDetailsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    if(userDetails?.user?.id) {
+      fetchApplicationDetails();
+    }
+  }, [userDetails?.user?.id])
+
   const navigate = useNavigate();
   return (
     <div className='application-dashboard-content'>
@@ -39,7 +78,7 @@ const ApplicationDashboard = () => {
               </div>
                 <Button
                 onClick={() => {
-                  navigate('/apply');
+                  navigate('/apply?startFrom='+current);
                 }}
                  type="primary" style={{width: '100%', marginTop: '1em'}}>Continue Application</Button>
               </Card>

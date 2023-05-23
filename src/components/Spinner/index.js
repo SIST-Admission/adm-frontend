@@ -1,5 +1,6 @@
 import { Loading } from '@nextui-org/react'
 export const Spinner = ({size = "sm", children}) => {
+  // size: sm, md, lg, xl
   return (
     <div style={{
       display: "flex",
