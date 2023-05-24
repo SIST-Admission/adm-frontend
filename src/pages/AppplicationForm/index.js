@@ -6,6 +6,7 @@ import axios from 'axios';
 import TermsAndConditions from './TermsAndConditions';
 import BasicDetails from './BasicDetails';
 import { Spinner } from '../../components/Spinner';
+import AcademicDetails from './AcademicDetails';
 
 
 const ApplicationForm = ({startFrom}) => {
@@ -99,7 +100,7 @@ const ApplicationForm = ({startFrom}) => {
       }}>
         {current === 0 && <TermsAndConditions setTermsLoading={setTermsLoading} setCurrent={setCurrent} />}
         {current === 1 && <BasicDetails setBasicDetailsLoading={setBasicDetailsLoading} applicationDetailsLoading={applicationDetailsLoading} applicationDetails={applicationDetails} setCurrent={setCurrent} />  }
-        {current === 2 && <div>Academic Details</div>}
+        {current === 2 && <AcademicDetails />}
       </div>
     </Card>
   )
