@@ -11,6 +11,7 @@ import { Spinner } from '../../components/Spinner';
 const ApplicationForm = ({startFrom}) => {
   const [current, setCurrent] = useState(startFrom || 0);
   const [termsLoading, setTermsLoading] = useState(false);
+  const [basicDetailsLoading, setBasicDetailsLoading] = useState(false);
   const [applicationDetailsLoading, setApplicationDetailsLoading] = useState(false);
   const [applicationDetails, setApplicationDetails] = useState({});
   const userDetails = useSelector(state => state.userStore.user);
@@ -22,10 +23,13 @@ const ApplicationForm = ({startFrom}) => {
         withCredentials: true
       });
       setApplicationDetails(res.data);
-      if (res?.data?.basicDetails){
-        setCurrent(2);
+      if (res.data?.basicDetails != null){
+          setCurrent(2);
+      } else if (res.data?.id != 0) {
+          setCurrent(1);
+      } else {
+          setCurrent(0);
       }
-      setCurrent(1);
       console.log("application Details", res.data);
     } catch (error) {
       if (res.status === 400 && res.data?.error?.message === 'Application does not exist') {
@@ -94,7 +98,7 @@ const ApplicationForm = ({startFrom}) => {
         backgroundColor: '#fff',
       }}>
         {current === 0 && <TermsAndConditions setTermsLoading={setTermsLoading} setCurrent={setCurrent} />}
-        {current === 1 && <BasicDetails applicationDetailsLoading={applicationDetailsLoading} setCurrent={setCurrent} />  }
+        {current === 1 && <BasicDetails setBasicDetailsLoading={setBasicDetailsLoading} applicationDetailsLoading={applicationDetailsLoading} applicationDetails={applicationDetails} setCurrent={setCurrent} />  }
         {current === 2 && <div>Academic Details</div>}
       </div>
     </Card>

@@ -9,10 +9,11 @@ import moment from 'moment'
 import axios from 'axios'
 
 
-const BasicDetails = ({setCurrent, applicationDetailsLoading}) => {
+const BasicDetails = ({setCurrent, applicationDetailsLoading, setBasicDetailsLoading,applicationDetails }) => {
   const [api, contextHolder] = notification.useNotification();
   const [idProofLoading, setIdProofLoading] = useState(true)
   const [idProofUrl, setIdProofUrl] = useState("")
+  const [loading, setloading] = useState(false)
   const fileUploadProps = {
     customRequest: async (options) => {
       try {
@@ -143,15 +144,16 @@ const BasicDetails = ({setCurrent, applicationDetailsLoading}) => {
         signatureMimeType: signatureFileList[0]?.type,
         signatureUrl: signatureFileList[0]?.response?.Location
       }
-      
+      setloading(true)
+      setBasicDetailsLoading(true)
       const res = await axios.post(process.env.REACT_APP_BACKEND_BASEPATH + "/applications/basicDetails", payload, {
         withCredentials: true
       })
 
+      setCurrent(2)
       api.success({
         message: 'Basic details submitted successfully',
       });
-
 
     } catch (error) {
       error.errorFields.forEach((err) => {
@@ -161,6 +163,9 @@ const BasicDetails = ({setCurrent, applicationDetailsLoading}) => {
           placement: 'bottomRight',
         });
       });
+    } finally {
+      setloading(false)
+      setBasicDetailsLoading(false)
     }
   }
 
@@ -173,23 +178,24 @@ const BasicDetails = ({setCurrent, applicationDetailsLoading}) => {
   return (
     <div>
       {contextHolder}
-      <h3 style={{marginTop: '.2em', fontSize: '1em', fontFamily: 'helvetica', textAlign:'center'}}>Demographic Details</h3>  
+      <h3 style={{marginTop: '.2em', fontSize: '1em', fontFamily: 'helvetica', textAlign:'center'}}>Basic Details</h3>  
       <Form ref={basicDetailsFormRef} layout='vertical' style={{ margin: '1em auto', maxWidth: '40em'}} >
         <Form.Item label="Full Name" name="name" rules={[
           { required: true, message: 'Please input your full name', whitespace: true },
           { pattern: /^[a-zA-Z ]+$/, message: 'Please enter a valid name' },
           { min: 3, message: 'Name must be atleast 3 characters long'}
         ]} >
-          <Input placeholder="Full Name" name='name' required />
+          <Input placeholder="Full Name" name='name' required defaultValue={applicationDetails?.basicDetails?.name || ""} />
         </Form.Item>
         <Row gutter={20}>
           <Col span={12}>
             <Form.Item label="Email ID" name="email" rules={[
               { required: true, message: 'Please enter your email ID', whitespace: true },
-              { pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: 'Please enter a valid email ID' },
+              { pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: 'Please enter a valid email ID'  },
               { min: 6, message: 'Email ID is too short'}
+              
             ]} >
-            <Input placeholder="Email ID" name='email' required />
+            <Input placeholder="Email ID" name='email' defaultValue={applicationDetails?.basicDetails?.email || ""} required />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -205,6 +211,7 @@ const BasicDetails = ({setCurrent, applicationDetailsLoading}) => {
           <Col span={12}>
           <Form.Item
           label="Date of Birth"
+          
           name="dob"
           rules={[
             { required: true, message: 'Date of Birth is required' },]}>
@@ -219,6 +226,7 @@ const BasicDetails = ({setCurrent, applicationDetailsLoading}) => {
                 <Select
                 placeholder="Select a Gender"
                 optionFilterProp="children"
+                defaultValue={applicationDetails?.basicDetails?.gender || ""}
                 filterOption={(input, option) =>
                   (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                 }
@@ -434,7 +442,7 @@ const BasicDetails = ({setCurrent, applicationDetailsLoading}) => {
       </Form>
       <div style={{ display: 'flex',justifyContent: 'center',marginTop: 'auto'}}>
         <Button style={{marginRight:'.3em'}} onClick={() => setCurrent(0)}>Previous</Button>
-        <Button type="primary" onClick={() => submitBasicDetails()}>Submit & Next</Button>
+        <Button type="primary" loading={loading} onClick={() => submitBasicDetails()}>Submit & Next</Button>
       </div>
     </div>
   )
