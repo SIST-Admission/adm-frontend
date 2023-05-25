@@ -154,6 +154,7 @@ const BasicDetails = ({setCurrent, applicationDetailsLoading, setBasicDetailsLoa
       api.success({
         message: 'Basic details submitted successfully',
       });
+      window.scrollTo(0, 0)
 
     } catch (error) {
       error.errorFields.forEach((err) => {

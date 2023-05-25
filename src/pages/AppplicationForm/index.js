@@ -13,6 +13,7 @@ const ApplicationForm = ({startFrom}) => {
   const [current, setCurrent] = useState(startFrom || 0);
   const [termsLoading, setTermsLoading] = useState(false);
   const [basicDetailsLoading, setBasicDetailsLoading] = useState(false);
+  const [academicDetailsLoading, setAcademicDetailsLoading] = useState(false);
   const [applicationDetailsLoading, setApplicationDetailsLoading] = useState(false);
   const [applicationDetails, setApplicationDetails] = useState({});
   const userDetails = useSelector(state => state.userStore.user);
@@ -64,7 +65,7 @@ const ApplicationForm = ({startFrom}) => {
     },
     {
       title: 'Academic Details',
-      icon: <TrophyOutlined />
+      icon: current === 2 && applicationDetailsLoading ? <LoadingOutlined /> : (<TrophyOutlined />)
       // description: 'Submit academic details',
     },
     {
@@ -100,7 +101,8 @@ const ApplicationForm = ({startFrom}) => {
       }}>
         {current === 0 && <TermsAndConditions setTermsLoading={setTermsLoading} setCurrent={setCurrent} />}
         {current === 1 && <BasicDetails setBasicDetailsLoading={setBasicDetailsLoading} applicationDetailsLoading={applicationDetailsLoading} applicationDetails={applicationDetails} setCurrent={setCurrent} />  }
-        {current === 2 && <AcademicDetails />}
+        {current === 2 && <AcademicDetails applicationDetails={applicationDetails} setCurrent={setCurrent} setAcademicDetailsLoading={setAcademicDetailsLoading} />}
+        {current === 3 && <div>Application Fee</div>}
       </div>
     </Card>
   )
