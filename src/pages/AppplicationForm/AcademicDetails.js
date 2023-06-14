@@ -14,10 +14,7 @@ const AcademicDetails = ({
   setAcademicDetailsLoading,
 }) => {
   const [api, contextHolder] = notification.useNotification()
-  const [computedPercentage, setComputedPercentage] = useState(0)
   const [xiiComputedPercentage, setXiiComputedPercentage] = useState(0)
-  const [xTotalMarks, setXTotalMarks] = useState(0)
-  const [xObtainedMarks, setXObtainedMarks] = useState(0)
   const [xiiTotalMarks, setXiiTotalMarks] = useState(0)
   const [xiiObtainedMarks, setXiiObtainedMarks] = useState(0)
   const academicDetailsRef = useRef()
@@ -25,6 +22,8 @@ const AcademicDetails = ({
  
   const [classXMarksheetFileList, setClassXMarksheetFileList] = useState([])
   const [classXIIMarksheetFileList, setClassXIIMarksheetFileList] = useState([])
+
+  const [diplomaMarksheetFileList, setDiplomaMarksheetFileList] = useState([])
 
   const [lateralDidPassClassXII, setLateralDidPassClassXII] = useState(false)
   const [didAppearForCUET, setDidAppearForCUET] = useState(false)
@@ -37,6 +36,10 @@ const AcademicDetails = ({
 
   const onClassXIIMarksheetFileListChange = ({ fileList: newFileList }) => {
     setClassXIIMarksheetFileList(newFileList)
+  }
+
+  const onDiplomaMarksheetFileListChange = ({ fileList: newFileList }) => {
+    setDiplomaMarksheetFileList(newFileList)
   }
  
   const fileUploadProps = {
@@ -85,177 +88,11 @@ const AcademicDetails = ({
     imgWindow?.document.write(image.outerHTML);
   };
 
-  const ClassXSubjectWiseDetails = () => <>
-    <Col span={8}>
-                <Form.Item
-                  label="Subject Name"
-                  name="x_subjectName_1"
-                  rules={[{ required: true, message: 'Please enter your Subject Name' }]}>
-                    <Select
-                    name="x_subjectName_1"
-                    placeholder="Select a Subject Name"
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                      (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                    }
-                    showSearch
-                    options={classXsubjects.map (subject => ({ value: subject, label: subject }))}
-                    style={{ width: '100%' }}
-                  />
-                </Form.Item>
-                </Col>
-                <Col span={8}>
-                <Form.Item
-                  label="Total Marks"
-                  name="x_totalMarks_1"
-                  rules={[{ required: true, message: 'Please Total Marks' }]}>
-                    <Input placeholder="Enter your Total Marks" />
-                </Form.Item>
-                </Col>
-                <Col span={8}>
-                <Form.Item
-                  label="Marks Obtained"
-                  name="x_marksObtained_1"
-                  rules={[{ required: true, message: 'Please enter your Marks Obtained' }]}>
-                    <Input placeholder="Enter your Marks Obtained" />
-                </Form.Item>
-                </Col>
-                <Col span={8}>
-                <Form.Item
-                  label="Subject Name"
-                  name="x_subjectName_2"
-                  rules={[{ required: true, message: 'Please enter your Subject Name' }]}>
-                    <Select
-                    name="x_subjectName_2"
-                    placeholder="Select a Subject Name"
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>(option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-                    showSearch
-                    options={classXsubjects.map (subject => ({ value: subject, label: subject }))}
-                    style={{ width: '100%' }}
-                  />
-                </Form.Item>
-                </Col>
-                <Col span={8}>
-                <Form.Item
-                  label="Total Marks"
-                  name="x_totalMarks_2"
-                  rules={[{ required: true, message: 'Please Total Marks' }]}>
-                    <Input placeholder="Enter your Total Marks" />
-                </Form.Item>
-                </Col>
-                <Col span={8}>
-                <Form.Item
-                  label="Marks Obtained"
-                  name="x_marksObtained_2"
-                  rules={[{ required: true, message: 'Please enter your Marks Obtained' }]}>
-                    <Input placeholder="Enter your Marks Obtained" />
-                </Form.Item>
-                </Col>
-                <Col span={8}>
-                <Form.Item
-                  label="Subject Name"
-                  name="x_subjectName_3"
-                  rules={[{ required: true, message: 'Please enter your Subject Name' }]}>
-                    <Select
-                    name="x_subjectName_3"
-                    placeholder="Select a Subject Name"
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>(option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-                    showSearch
-                    options={classXsubjects.map (subject => ({ value: subject, label: subject }))}
-                    style={{ width: '100%' }}
-                  />
-                </Form.Item>
-                </Col>
-                <Col span={8}>
-                <Form.Item
-                  label="Total Marks"
-                  name="x_totalMarks_3"
-                  rules={[{ required: true, message: 'Please Total Marks' }]}>
-                    <Input placeholder="Enter your Total Marks" />
-                </Form.Item>
-                </Col>
-                <Col span={8}>
-                <Form.Item
-                  label="Marks Obtained"
-                  name="x_marksObtained_3"
-                  rules={[{ required: true, message: 'Please enter your Marks Obtained' }]}>
-                    <Input placeholder="Enter your Marks Obtained" />
-                </Form.Item>
-                </Col>
-                <Col span={8}>
-                <Form.Item
-                  label="Subject Name"
-                  name="x_subjectName_4"
-                  rules={[{ required: true, message: 'Please enter your Subject Name' }]}>
-                    <Select
-                    name="x_subjectName_4"
-                    placeholder="Select a Subject Name"
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>(option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-                    showSearch
-                    options={classXsubjects.map (subject => ({ value: subject, label: subject }))}
-                    style={{ width: '100%' }}
-                  />
-                </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                  <Form.Item
-                    label="Total Marks"
-                    name="x_totalMarks_4"
-                    rules={[{ required: true, message: 'Please Total Marks' }]}>
-                      <Input placeholder="Enter your Total Marks" />
-                  </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                  <Form.Item
-                    label="Marks Obtained"
-                    name="x_marksObtained_4"
-                    rules={[{ required: true, message: 'Please enter your Marks Obtained' }]}>
-                      <Input placeholder="Enter your Marks Obtained" />
-                  </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                  <Form.Item
-                    label="Subject Name"
-                    name="x_subjectName_5"
-                    rules={[{ required: true, message: 'Please enter your Subject Name' }]}>
-                      <Select
-                      name="x_subjectName_5"
-                      placeholder="Select a Subject Name"
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>(option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-                      showSearch
-                      options={classXsubjects.map (subject => ({ value: subject, label: subject }))}
-                      style={{ width: '100%' }}
-                    />
-                  </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                  <Form.Item
-                    label="Total Marks"
-                    name="x_totalMarks_5"
-                    rules={[{ required: true, message: 'Please Total Marks' }]}>
-                      <Input placeholder="Enter your Total Marks" />
-                  </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                  <Form.Item
-                    label="Marks Obtained"
-                    name="x_marksObtained_5"
-                    rules={[{ required: true, message: 'Please enter your Marks Obtained' }]}>
-                      <Input placeholder="Enter your Marks Obtained" />
-                  </Form.Item>
-                  </Col>
-  </>
-
 const ClassXIISubjectWiseDetails = () => <>
               <Col span={8}>
                 <Form.Item
                   label="Subject Name"
-                  name="xii_subjectName_1"
-                  rules={[{ required: true, message: 'Please enter your Subject Name' }]}>
+                  name="xii_subjectName_1">
                     <Select
                     name="xii_subjectName_1"
                     placeholder="Select a Subject Name"
@@ -264,7 +101,7 @@ const ClassXIISubjectWiseDetails = () => <>
                       (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                     }
                     showSearch
-                    options={classXsubjects.map (subject => ({ value: subject, label: subject }))}
+                    options={classXsubjects.map (subject => ({ value: subject, label: subject, disabled: subject !== 'Physics' }))}
                     style={{ width: '100%' }}
                   />
                 </Form.Item>
@@ -288,15 +125,14 @@ const ClassXIISubjectWiseDetails = () => <>
                 <Col span={8}>
                 <Form.Item
                   label="Subject Name"
-                  name="xii_subjectName_2"
-                  rules={[{ required: true, message: 'Please enter your Subject Name' }]}>
+                  name="xii_subjectName_2">
                     <Select
                     name="xii_subjectName_2"
                     placeholder="Select a Subject Name"
                     optionFilterProp="children"
                     filterOption={(input, option) =>(option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
                     showSearch
-                    options={classXsubjects.map (subject => ({ value: subject, label: subject }))}
+                    options={classXsubjects.map (subject => ({ value: subject, label: subject, disabled: subject !== 'Mathematics'   }))}
                     style={{ width: '100%' }}
                   />
                 </Form.Item>
@@ -328,7 +164,8 @@ const ClassXIISubjectWiseDetails = () => <>
                     optionFilterProp="children"
                     filterOption={(input, option) =>(option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
                     showSearch
-                    options={classXsubjects.map (subject => ({ value: subject, label: subject }))}
+
+                    options={classXsubjects.map (subject => ({ value: subject, label: subject, disabled: subject === 'Mathematics' || subject === 'Physics' }))}
                     style={{ width: '100%' }}
                   />
                 </Form.Item>
@@ -349,124 +186,9 @@ const ClassXIISubjectWiseDetails = () => <>
                     <Input placeholder="Enter your Marks Obtained" />
                 </Form.Item>
                 </Col>
-                <Col span={8}>
-                <Form.Item
-                  label="Subject Name"
-                  name="xii_subjectName_4"
-                  rules={[{ required: true, message: 'Please enter your Subject Name' }]}>
-                    <Select
-                    name="xii_subjectName_4"
-                    placeholder="Select a Subject Name"
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>(option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-                    showSearch
-                    options={classXsubjects.map (subject => ({ value: subject, label: subject }))}
-                    style={{ width: '100%' }}
-                  />
-                </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                  <Form.Item
-                    label="Total Marks"
-                    name="xii_totalMarks_4"
-                    rules={[{ required: true, message: 'Please Total Marks' }]}>
-                      <Input placeholder="Enter your Total Marks" />
-                  </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                  <Form.Item
-                    label="Marks Obtained"
-                    name="xii_marksObtained_4"
-                    rules={[{ required: true, message: 'Please enter your Marks Obtained' }]}>
-                      <Input placeholder="Enter your Marks Obtained" />
-                  </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                  <Form.Item
-                    label="Subject Name"
-                    name="xii_subjectName_5"
-                    rules={[{ required: true, message: 'Please enter your Subject Name' }]}>
-                      <Select
-                      name="xii_subjectName_5"
-                      placeholder="Select a Subject Name"
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>(option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-                      showSearch
-                      options={classXsubjects.map (subject => ({ value: subject, label: subject }))}
-                      style={{ width: '100%' }}
-                    />
-                  </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                  <Form.Item
-                    label="Total Marks"
-                    name="xii_totalMarks_5"
-                    rules={[{ required: true, message: 'Please Total Marks' }]}>
-                      <Input placeholder="Enter your Total Marks" />
-                  </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                  <Form.Item
-                    label="Marks Obtained"
-                    name="xii_marksObtained_5"
-                    rules={[{ required: true, message: 'Please enter your Marks Obtained' }]}>
-                      <Input placeholder="Enter your Marks Obtained" />
-                  </Form.Item>
-                  </Col>
   </>
 
   const Diploma = () => <p>Diploma Details</p>
-
-  const validateClassX = (values) => {
-    console.log("Inside validateClassX")
-    const errors = [];
-    if (values?.classXSubjectsPassed === "no" || values?.classXSubjectsPassed === undefined) {
-      errors.push("You must have passed Class X for applying to this course");
-      return errors;
-    }
-
-    // Check Subject Duplication
-    let subjects = [];
-    subjects.push(values?.x_subjectName_1);
-    subjects.push(values?.x_subjectName_2);
-    subjects.push(values?.x_subjectName_3);
-    subjects.push(values?.x_subjectName_4);
-    subjects.push(values?.x_subjectName_5);
-    let uniqueSubjects = [...new Set(subjects)];
-    if (subjects.length !== uniqueSubjects.length) {
-      errors.push("You cannot have duplicate subjects in Class X");
-      return errors;  
-    }
-
-    let subjectsTotalMarks = [];
-    subjectsTotalMarks.push(Number(values?.x_totalMarks_1));
-    subjectsTotalMarks.push(Number(values?.x_totalMarks_2));
-    subjectsTotalMarks.push(Number(values?.x_totalMarks_3));
-    subjectsTotalMarks.push(Number(values?.x_totalMarks_4));
-    subjectsTotalMarks.push(Number(values?.x_totalMarks_5));
-
-    let subjectsMarksObtained = [];
-    subjectsMarksObtained.push(Number(values?.x_marksObtained_1));
-    subjectsMarksObtained.push(Number(values?.x_marksObtained_2));
-    subjectsMarksObtained.push(Number(values?.x_marksObtained_3));
-    subjectsMarksObtained.push(Number(values?.x_marksObtained_4));
-    subjectsMarksObtained.push(Number(values?.x_marksObtained_5));
-
-    let totalMarks = subjectsTotalMarks.reduce((a, b) => a + b, 0);
-    let totalMarksObtained = subjectsMarksObtained.reduce((a, b) => a + b, 0);
-    let totalPercentage =  (totalMarksObtained / totalMarks) * 100;
-    setXTotalMarks(totalMarks);
-    setXObtainedMarks(totalMarksObtained);
-    setComputedPercentage(totalPercentage);
-
-    if (totalPercentage < 60) {
-      errors.push("You must have atleast 60% in Class X for applying to this course");
-    } else if (totalPercentage > 100) {
-      errors.push("Total Percentage cannot be greater than 100");
-    } 
-    console.log("Errors Class X", errors);
-    return errors;
-  }
 
   const validateClassXII = (values) => {
     console.log("Inside validateClassXII")
@@ -481,9 +203,7 @@ const ClassXIISubjectWiseDetails = () => <>
     subjects.push(values?.xii_subjectName_1);
     subjects.push(values?.xii_subjectName_2);
     subjects.push(values?.xii_subjectName_3);
-    subjects.push(values?.xii_subjectName_4);
-    subjects.push(values?.xii_subjectName_5);
-
+    console.log("subjects", subjects);
     let uniqueSubjects = [...new Set(subjects)];
     if (subjects.length !== uniqueSubjects.length) {
       errors.push("Subjects cannot be duplicated");
@@ -493,16 +213,12 @@ const ClassXIISubjectWiseDetails = () => <>
     subjectsTotalMarks.push(Number(values?.xii_totalMarks_1));
     subjectsTotalMarks.push(Number(values?.xii_totalMarks_2));
     subjectsTotalMarks.push(Number(values?.xii_totalMarks_3));
-    subjectsTotalMarks.push(Number(values?.xii_totalMarks_4));
-    subjectsTotalMarks.push(Number(values?.xii_totalMarks_5));
-
+  
     let subjectsMarksObtained = [];
     subjectsMarksObtained.push(Number(values?.xii_marksObtained_1));
     subjectsMarksObtained.push(Number(values?.xii_marksObtained_2));
     subjectsMarksObtained.push(Number(values?.xii_marksObtained_3));
-    subjectsMarksObtained.push(Number(values?.xii_marksObtained_4));
-    subjectsMarksObtained.push(Number(values?.xii_marksObtained_5));
-
+  
 
     let totalMarks = subjectsTotalMarks.reduce((a, b) => a + b, 0);
     let totalMarksObtained = subjectsMarksObtained.reduce((a, b) => a + b, 0);
@@ -510,70 +226,69 @@ const ClassXIISubjectWiseDetails = () => <>
     setXiiTotalMarks(totalMarks);
     setXiiObtainedMarks(totalMarksObtained);
     setXiiComputedPercentage(totalPercentage);
-    if (totalPercentage < 60) {
-      errors.push("You must have atleast 60% in Class XII for applying to this course");
-    } else if (totalPercentage > 100) {
-      errors.push("Total Percentage cannot be greater than 100");
+
+    if (totalPercentage < 45){
+      errors.push("You must have passed Class XII with minimum 45% marks for applying to this course");
     }
+
     console.log("Errors Class XII", errors);
     return errors;
+  }
+
+  const submitDiplomaAcademicDetails = async () => {
+    
   }
 
   const submitAcademicDetails = async () => {
     try {
       const values = await academicDetailsRef.current.validateFields();
-      let errors = validateClassX(values);
-      errors = [...errors, ...validateClassXII(values)]
+      let errors = [];
+      if (applicationDetails.applicationType === "FRESHER"){
+        // Validate Class XII
+        errors = [...errors, ...validateClassXII(values)]
+      } else {
+        // Validate Diploma
+      }
+
       if (errors.length > 0) {
         errors.forEach(error => api.error({
           message: error
         }));
         return;
       }
+
+      if (values.x_percentage <= 10){
+        // Convert CGPA to Percentage
+        values.x_percentage = values.x_percentage * 9.5;
+      }
+
       console.log("Success Values", values);
+   
       // Build the payload
       let payload = {
         class10Details: {
-          schoolName: values.schoolName,
-          boardName: values.board,
+          schoolName: values.x_schoolName,
+          boardName: values.x_board,
           yearOfPass: moment(values.yearOfPassing).format("YYYY"),
-          percentage: computedPercentage,
-          rollNumber: values.rollNumber,
-          totalMarks: xTotalMarks,
-          obtained: xObtainedMarks,
-          subjects: [
-            { 
-              subjectName: values.x_subjectName_1,
-              totalMarks: Number(values.x_totalMarks_1),
-              obtained: Number(values.x_marksObtained_1)
-            },
-            {
-              subjectName: values.x_subjectName_2,
-              totalMarks: Number(values.x_totalMarks_2),
-              obtained: Number(values.x_marksObtained_2)
-            },
-            {
-              subjectName: values.x_subjectName_3,
-              totalMarks: Number(values.x_totalMarks_3),
-              obtained: Number(values.x_marksObtained_3)
-            },
-            {
-              subjectName: values.x_subjectName_4,
-              totalMarks: Number(values.x_totalMarks_4),
-              obtained: Number(values.x_marksObtained_4)
-            },
-            {
-              subjectName: values.x_subjectName_5,
-              totalMarks: Number(values.x_totalMarks_5),
-              obtained: Number(values.x_marksObtained_5)
-            }
-          ],
+          percentage: parseFloat(values.x_percentage),
+          rollNumber: values.x_rollNumber,
           marksheet: {
             key: values.x_marksheet.file.response.Key,
             url: values.x_marksheet.file.response.Location,
             mimeType: values.x_marksheet.file.type
           }
         },
+        diplomaDetails: applicationDetails.applicationType !== "FRESHER" ? {
+          collegeName: values.diploma_university,
+          yearOfPass: moment(values.diploma_yearOfPassing).format("YYYY"),
+          department: values.diploma_department,
+          cgpa: parseFloat(values.diploma_cgpa),
+          marksheet: {
+            key: values.diploma_marksheet.file.response.Key,
+            url: values.diploma_marksheet.file.response.Location,
+            mimeType: values.diploma_marksheet.file.type
+          }
+        } : null,
         class12Details: applicationDetails.applicationType === "FRESHER" || (applicationDetails.applicationType="LATERAL" && lateralDidPassClassXII) ? {
           schoolName: values.xii_schoolName,
           boardName: values.xii_board,
@@ -597,16 +312,6 @@ const ClassXIISubjectWiseDetails = () => <>
               subjectName: values.xii_subjectName_3,
               totalMarks: Number(values.xii_totalMarks_3),
               obtained: Number(values.xii_marksObtained_3)
-            },
-            {
-              subjectName: values.xii_subjectName_4,
-              totalMarks: Number(values.xii_totalMarks_4),
-              obtained: Number(values.xii_marksObtained_4)
-            },
-            {
-              subjectName: values.xii_subjectName_5,
-              totalMarks: Number(values.xii_totalMarks_5),
-              obtained: Number(values.xii_marksObtained_5)
             }
           ],
           marksheet: {
@@ -639,7 +344,7 @@ const ClassXIISubjectWiseDetails = () => <>
         api.success({
           message: res.data.message
         });
-        setCurrent(3);
+        // setCurrent(3);
       } catch (error) {
         console.log("Error", error);
         api.error({
@@ -677,10 +382,10 @@ const ClassXIISubjectWiseDetails = () => <>
               <Col span={16}>
               <Form.Item
                 label="Board"
-                name="board"
+                name="x_board"
                 rules={[{ required: true, message: 'Please select a Board' }]}>
                     <Select
-                    name="board"
+                    name="x_board"
                     placeholder="Select a Board"
                     optionFilterProp="children"
                     filterOption={(input, option) =>
@@ -695,7 +400,7 @@ const ClassXIISubjectWiseDetails = () => <>
                 <Col span={8}>
                 <Form.Item
                   label="Year of Passing"
-                  name="yearOfPassing"
+                  name="x_yearOfPassing"
                   rules={[{ required: true, message: 'Please select a Year of Passing' }]}>
                     <DatePicker picker="year" style={{ width: '100%' }} />
                 </Form.Item>
@@ -703,7 +408,7 @@ const ClassXIISubjectWiseDetails = () => <>
                 <Col span={16}>
                 <Form.Item
                   label="School Name"
-                  name="schoolName"
+                  name="x_schoolName"
                   rules={[{ required: true, message: 'Please enter your School Name' }]}>
                     <Input placeholder="Enter your School Name" />
                 </Form.Item>
@@ -711,42 +416,20 @@ const ClassXIISubjectWiseDetails = () => <>
                 <Col span={8}>
                     <Form.Item
                       label="Roll Number"
-                      name="rollNumber"
+                      name="x_rollNumber"
                       rules={[{ required: true, message: 'Roll No. / Reg. No.' }]}>
                         <Input placeholder="Enter your Roll Number / Registration Number" />
                     </Form.Item>
                 </Col>
-                {/* Class X Subject Wise details */}
-                <Col span={24}>
-                  <p style={{
-                    textAlign: 'center',
-                    fontSize: '1.2em',
-
-                  }}>Please Enter Subject wise details of top 5 scoring subjects</p>
-                </Col>
-                <ClassXSubjectWiseDetails />
-                <Col span={8}>
+                <Col span={16}>
                   <Form.Item
-                    label="Have you passed in all subjects?"
-                    name="classXSubjectsPassed"
-                    rules={[{ required: true, message: 'Please select an option' }]}>
-                      <Radio.Group>
-                        <Radio.Button value="yes">Yes</Radio.Button>
-                        <Radio.Button value="no">No</Radio.Button>
-                      </Radio.Group>
+                    style={{ marginBottom: '.6em' }}
+                    label="CGPA / Percentage"
+                    name="x_percentage"
+                    rules={[{ required: true, message: 'Please enter your CGPA / Percentage' }]}>
+                      <Input placeholder="Enter your CGPA / Percentage" style={{ width: '100%' }} />
                   </Form.Item>
-                  <p>
-                    If you have not passed in all subjects, in such case your candidature will be cancelled
-                  </p>
-                </Col>
-                <Col span={8}>
-                  {/* {computedPercentage != 0 && 
-                  <Tag color={computedPercentage >= 60 && computedPercentage <= 100 ? 'green' : 'volcano'} style={{
-                    fontSize: '1.2em',
-                    padding: '0.5em 1em'
-                  }}>Computed Percentage: {computedPercentage.toFixed(2)}%</Tag>
-                } */}
-                  <p>If any above furnished details are missmatched, in such case your candidature will be cancelled</p>
+                  <span>If any above furnished details are missmatched, in such case your candidature will be cancelled</span>
                 </Col>
                 <Col span={8}>
                   <ImgCrop rotationSlider aspectSlider zoomSlider cropShape='rect'>
@@ -859,106 +542,6 @@ const ClassXIISubjectWiseDetails = () => <>
                 
                 </>) : (<>
                 {/* If Lateral */}
-                <Row>
-                <Col span={24}>
-                  <Space>
-                    <p>Did you pass class XII too ?</p>
-                    <Switch checkedChildren="Yes" unCheckedChildren="No" title='Did you pass class XII too?' checked={lateralDidPassClassXII} onChange={(checked) => setLateralDidPassClassXII(checked)} />
-                  </Space>
-                </Col>
-                </Row>
-                {lateralDidPassClassXII && (<>
-                  {/* Lateral Class XII Details */}
-                  <Card title="Class XII Details" bordered={false} style={{ width: '100%' }}>
-                    <Row gutter={16}>
-                      <Col span={16}>
-                      <Form.Item
-                        label="Board"
-                        name="xii_board"
-                        rules={[{ required: true, message: 'Please select a Board' }]}>
-                            <Select
-                            name="xii_board"
-                            placeholder="Select a Board"
-                            optionFilterProp="children"
-                            filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-                            showSearch
-                            options={boards.map (board => ({ value: board, label: board }))}
-                            style={{ width: '100%' }}
-                          />
-                        </Form.Item>
-                        </Col>
-                        <Col span={8}>
-                        <Form.Item
-                          label="Year of Passing"
-                          name="xii_yearOfPassing"
-                          rules={[{ required: true, message: 'Please select a Year of Passing' }]}>
-                            <DatePicker picker="year" style={{ width: '100%' }} />
-                        </Form.Item>
-                        </Col>
-                        <Col span={16}>
-                        <Form.Item
-                          label="School Name"
-                          name="xii_schoolName"
-                          rules={[{ required: true, message: 'Please enter your School Name' }]}>
-                            <Input placeholder="Enter your School Name" />
-                        </Form.Item>
-                        </Col>
-                        <Col span={8}>
-                            <Form.Item
-                              label="Roll Number"
-                              name="xii_rollNumber"
-                              rules={[{ required: true, message: 'Roll No. / Reg. No.' }]}>
-                                <Input placeholder="Enter your Roll Number / Registration Number" />
-                            </Form.Item>
-                        </Col>
-                       
-                        {/* Class XII Subject Wise details */}
-                        <ClassXIISubjectWiseDetails />
-                        <Col span={8}>
-                          <Form.Item
-                            label="Have you passed in all subjects?"
-                            name="xii_subjectsPassed"
-                            rules={[{ required: true, message: 'Please select an option' }]}>
-                              <Radio.Group>
-                                <Radio.Button value="yes">Yes</Radio.Button>
-                                <Radio.Button value="no">No</Radio.Button>
-                              </Radio.Group>
-                          </Form.Item>
-                          <p> If you have completed your Diploma, in such case you need not pass in all subjects</p>
-                        </Col>
-                        <Col span={8}>
-                          {xiiComputedPercentage != 0 &&
-                          <Tag color={xiiComputedPercentage >= 60 && xiiComputedPercentage <= 100 ? 'green' : 'volcano'} style={{
-                            fontSize: '1.2em',
-                            padding: '0.5em 1em'
-                          }}>Computed Percentage: {xiiComputedPercentage.toFixed(2)}%</Tag>
-                        }
-                          <p>If any above furnished details are missmatched, in such case your candidature will be cancelled</p>
-                        </Col>
-                        <Col span={8}>
-                          <ImgCrop rotationSlider aspectSlider zoomSlider cropShape='rect'>
-                            <Form.Item
-                              label="Upload Class XII Marksheet"
-                              name="xii_marksheet"
-                              rules={[{ required: true, message: 'Please upload your Class XII Marksheet' }]}>
-                                <Upload
-                                  name='xii_marksheet'
-                                  {...fileUploadProps}
-                                  listType="picture-card"
-                                  fileList={classXIIMarksheetFileList}
-                                  onChange={onClassXIIMarksheetFileListChange}
-                                  onPreview={onPreview}>
-                                  {classXIIMarksheetFileList.length === 0 && UploadButton}
-                                </Upload>
-                            </Form.Item>
-                          </ImgCrop>
-                        </Col>
-
-
-                    </Row>
-                  </Card>
-                </>)}
-
                 {/* Diploma Details */}
                 <Card title="Diploma Details" bordered={false} style={{ width: '100%', marginTop: '1em' }}>
                   <Row gutter={16}>
@@ -1002,66 +585,48 @@ const ClassXIISubjectWiseDetails = () => <>
                       />
                     </Form.Item>
                     </Col>
+                    
                     <Col span={8}>
-                        {lateralDidPassClassXII && (<>
+                      <Form.Item
+                      label="CGPA"
+                      name="diploma_cgpa"
+                      rules={[{ required: true, message: 'Please enter your CGPA'}]}>
+                        <Input placeholder="CGPA" style={{ width: '100%' }} />
+                    </Form.Item>
+                    </Col>
+                    <Col span={8}>
                           <Form.Item
-                            label="Are you a lateral entry student?"
-                            name="diploma_lateralEntry"
+                            label="Do you have any active backlog(s)?"
+                            name="dipolma_activeBacklogs"
                             rules={[{ required: true, message: 'Please select an option' }]}>
                               <Radio.Group>
                                 <Radio.Button value="yes">Yes</Radio.Button>
                                 <Radio.Button value="no">No</Radio.Button>
                               </Radio.Group>
                           </Form.Item>
-                        </>)}
                     </Col>
-                    <Col span={4}>
-                      <Form.Item
-                      label="Semester 1"
-                      name="diploma_sem1GPA"
-                      rules={[{ required: true, message: 'Please enter your Semester 1 GPA' }]}>
-                        <Input placeholder="GPA" style={{ width: '100%' }} />
-                    </Form.Item>
+                    <Col span={8}>
+                      <span>
+                        Please Upload your Consolidated Marksheet or Semester Wise Marksheet combined in a single PDF file
+                      </span>
                     </Col>
-                    <Col span={4}>
-                      <Form.Item
-                      label="Semester 2"
-                      name="diploma_sem2GPA"
-                      rules={[{ required: true, message: 'Please enter your Semester 2 GPA' }]}>
-                        <Input placeholder="GPA" style={{ width: '100%' }} />
-                    </Form.Item>
-                    </Col>
-                    <Col span={4}>
-                      <Form.Item
-                      label="Semester 3"
-                      name="diploma_sem3GPA"
-                      rules={[{ required: true, message: 'Please enter your Semester 3 GPA' }]}>
-                        <Input placeholder="GPA" style={{ width: '100%' }} />
-                    </Form.Item>
-                    </Col>
-                    <Col span={4}>
-                      <Form.Item
-                      label="Semester 4"
-                      name="diploma_sem4GPA"
-                      rules={[{ required: true, message: 'Please enter your Semester 4 GPA' }]}>
-                        <Input placeholder="GPA" style={{ width: '100%' }} />
-                    </Form.Item>
-                    </Col>
-                    <Col span={4}>
-                      <Form.Item
-                      label="Semester 5"
-                      name="diploma_sem5GPA"
-                      rules={[{ required: true, message: 'Please enter your Semester 5 GPA' }]}>
-                        <Input placeholder="GPA" style={{ width: '100%' }} />
-                    </Form.Item>
-                    </Col>
-                    <Col span={4}>
-                      <Form.Item
-                      label="Semester 6"
-                      name="diploma_sem6GPA"
-                      rules={[{ required: true, message: 'Please enter your Semester 6 GPA' }]}>
-                        <Input placeholder="GPA" style={{ width: '100%' }} />
-                    </Form.Item>
+                    <Col span={8}>
+                      <ImgCrop rotationSlider aspectSlider zoomSlider cropShape='rect'>
+                        <Form.Item
+                          label="Upload Diploma Marksheet"
+                          name="diploma_marksheet"
+                          rules={[{ required: true, message: 'Please upload your Diploma Marksheet' }]}>
+                            <Upload
+                              name='diploma_marksheet'
+                              {...fileUploadProps}
+                              listType="picture-card"
+                              fileList={diplomaMarksheetFileList}
+                              onChange={onDiplomaMarksheetFileListChange}
+                              onPreview={onPreview}>
+                              {diplomaMarksheetFileList.length === 0 && UploadButton}
+                            </Upload>
+                        </Form.Item>
+                      </ImgCrop>
                     </Col>
                     
                   </Row>
@@ -1103,13 +668,15 @@ const ClassXIISubjectWiseDetails = () => <>
                       </Col>
                     </Row>
                   </>)}
+                  {applicationDetails.applicationType === 'FRESHER' && (<>
                   <Col span={24}>
                     <Space>
                       <p>Did you appear for JEE main ?</p>
                       <Switch checkedChildren="Yes" unCheckedChildren="No" checked={didAppearForJEE} onChange={setDidAppearForJEE} />
                     </Space>
                   </Col>
-                  {didAppearForJEE && (<>
+                  </>)}
+                  { didAppearForJEE && (<>
                     <Row gutter={16}>
                       <Col span={8}>
                         <Form.Item

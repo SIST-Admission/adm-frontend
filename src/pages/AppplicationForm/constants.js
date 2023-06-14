@@ -331,19 +331,17 @@ export const boards = [
 ]
 
 export const classXsubjects = [
-	"English",
-	"Hindi",
-	"Mathematics",
-	"Science",
-	"Social Science",
-	"History",
-	"Geography",
-	"Civics",
-	"Economics",
 	"Physics",
+	"Mathematics",
 	"Chemistry",
-	"Biology",
 	"Computer Science",
-	"Physical Education",
-	"Other"
+	"Electronics",
+	"Information Technology",
+	"Informatics Practices",
+	"Biology",
+	"Biotecnology",
+	"Agriculture",
+	"Engineering Graphics",
+	"Business Studies",
+	"Entrepreneurship"
 ]
