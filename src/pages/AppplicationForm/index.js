@@ -7,6 +7,7 @@ import TermsAndConditions from './TermsAndConditions';
 import BasicDetails from './BasicDetails';
 import { Spinner } from '../../components/Spinner';
 import AcademicDetails from './AcademicDetails';
+import FeePayment from './FeePayment';
 
 
 const ApplicationForm = ({startFrom}) => {
@@ -25,7 +26,9 @@ const ApplicationForm = ({startFrom}) => {
         withCredentials: true
       });
       setApplicationDetails(res.data);
-      if (res.data?.basicDetails != null){
+      if (res.data?.academicDetails != null) {
+        setCurrent(3)
+      } else if (res.data?.basicDetails != null){
           setCurrent(2);
       } else if (res.data?.id != 0) {
           setCurrent(1);
@@ -102,7 +105,7 @@ const ApplicationForm = ({startFrom}) => {
         {current === 0 && <TermsAndConditions setTermsLoading={setTermsLoading} setCurrent={setCurrent} />}
         {current === 1 && <BasicDetails setBasicDetailsLoading={setBasicDetailsLoading} applicationDetailsLoading={applicationDetailsLoading} applicationDetails={applicationDetails} setCurrent={setCurrent} />  }
         {current === 2 && <AcademicDetails applicationDetails={applicationDetails} setCurrent={setCurrent} setAcademicDetailsLoading={setAcademicDetailsLoading} />}
-        {current === 3 && <div>Application Fee</div>}
+        {current === 3 && <FeePayment />}
       </div>
     </Card>
   )
