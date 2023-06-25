@@ -344,7 +344,7 @@ const ClassXIISubjectWiseDetails = () => <>
         api.success({
           message: res.data.message
         });
-        // setCurrent(3);
+        setCurrent(3);
       } catch (error) {
         console.log("Error", error);
         api.error({

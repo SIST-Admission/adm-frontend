@@ -50,7 +50,9 @@ const LoginPage = () => {
           user: response.data
         }));
         console.log("Redirect: ", redirect)
-        if(redirect) {
+        if (redirect && redirect === '/login') {
+          navigate('/');
+        } else if(redirect) {
           navigate(redirect);
         } else {
           navigate('/');

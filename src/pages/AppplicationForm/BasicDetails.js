@@ -3,6 +3,7 @@ import {Form, Input, Row, Col, Upload, DatePicker, Select, Switch, Button, notif
 import ImgCrop from 'antd-img-crop'
 import {Spinner} from '../../components/Spinner'
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
 import { putFileToAws } from '../../utils/aws'
 import { states, countryList } from './constants'
 import moment from 'moment'
@@ -10,6 +11,7 @@ import axios from 'axios'
 
 
 const BasicDetails = ({setCurrent, applicationDetailsLoading, setBasicDetailsLoading,applicationDetails }) => {
+  const userDetails = useSelector(state => state.userStore.user);
   const [api, contextHolder] = notification.useNotification();
   const [idProofLoading, setIdProofLoading] = useState(true)
   const [idProofUrl, setIdProofUrl] = useState("")
@@ -124,7 +126,10 @@ const BasicDetails = ({setCurrent, applicationDetailsLoading, setBasicDetailsLoa
   
       const payload = {
         name: values.name,
-        dob: "1999-01-01",
+        email: userDetails.user.email,
+        phone: userDetails.user.phone,
+        dob: moment(values.dob).format("YYYY-MM-DD"),
+        address: values.address + " " + values.city + " " + values.state,
         category: values.category,
         gender: values.gender,
         fatherName: values.fatherName,
@@ -190,21 +195,13 @@ const BasicDetails = ({setCurrent, applicationDetailsLoading, setBasicDetailsLoa
         </Form.Item>
         <Row gutter={20}>
           <Col span={12}>
-            <Form.Item label="Email ID" name="email" rules={[
-              { required: true, message: 'Please enter your email ID', whitespace: true },
-              { pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: 'Please enter a valid email ID'  },
-              { min: 6, message: 'Email ID is too short'}
-              
-            ]} >
-            <Input placeholder="Email ID" name='email' defaultValue={applicationDetails?.basicDetails?.email || ""} required />
+            <Form.Item label="Email ID" name="email" >
+            <Input placeholder="Email ID" name='email' defaultValue={userDetails?.user?.email} disabled />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="Phone no." name="phone" rules={[
-              { required: true, message: 'Please enter your Phone no.', whitespace: true },
-              { pattern: /^[0-9]{10}$/, message: 'Please enter a valid Phone no.' },
-            ]} >
-              <Input placeholder="Phone no." name='phone' required />
+            <Form.Item label="Phone no." name="phone" >
+              <Input placeholder="Phone no." name='phone' defaultValue={userDetails?.user?.phone} disabled />
             </Form.Item>
           </Col>
         </Row>
@@ -385,7 +382,7 @@ const BasicDetails = ({setCurrent, applicationDetailsLoading, setBasicDetailsLoa
         <Row>
           <Col span={8}>
             <Form.Item label="ID Proof" name="idProof">
-              <ImgCrop rotationSlider >
+              <ImgCrop rotationSlider aspectSlider>
               <Upload
                 name='idProof'
                 {...fileUploadProps}
@@ -419,7 +416,7 @@ const BasicDetails = ({setCurrent, applicationDetailsLoading, setBasicDetailsLoa
           </Col>
           <Col span={8}>
           <Form.Item label="Signature" name="signature">
-            <ImgCrop rotationSlider >
+            <ImgCrop rotationSlider aspectSlider >
               <Upload
                 name='signature'
                 {...fileUploadProps}

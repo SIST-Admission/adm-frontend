@@ -20,7 +20,7 @@ const ApplicationDashboard = () => {
     setApplicationDetailsLoading(true);
     let res;
     try {
-      res = await axios.get(process.env.REACT_APP_BACKEND_BASEPATH + `/applications/${userDetails?.user?.id}`, {
+      res = await axios.get(process.env.REACT_APP_BACKEND_BASEPATH + `/applications/getApplicationByUser`, {
         withCredentials: true
       });
       setApplicationDetails(res.data);

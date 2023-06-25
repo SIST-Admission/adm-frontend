@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Button, Popconfirm, notification } from "antd";
 import axios from "axios";
-const TermsAndConditions = ({setCurrent, setTermsLoading}) => {
+const TermsAndConditions = ({setCurrent, setTermsLoading, updateApplicationData}) => {
   const [api, contextHolder] = notification.useNotification();
   const [loading, setLoading] = useState(false);
+
   const startApplication = async (applicationType) => {
     setLoading(true);
     setTermsLoading(true);
@@ -11,6 +12,7 @@ const TermsAndConditions = ({setCurrent, setTermsLoading}) => {
       const res = await axios.post(process.env.REACT_APP_BACKEND_BASEPATH + "/applications/start", { applicationType }, {
         withCredentials: true
       });
+      updateApplicationData();
       setCurrent(1);
       window.scrollTo(0, 0);
     } catch (err) {

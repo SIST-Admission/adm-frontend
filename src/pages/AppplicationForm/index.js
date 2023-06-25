@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import TermsAndConditions from './TermsAndConditions';
 import BasicDetails from './BasicDetails';
+import ConfirmApplication from './ConfirmApplication';
 import { Spinner } from '../../components/Spinner';
 import AcademicDetails from './AcademicDetails';
 import FeePayment from './FeePayment';
@@ -22,11 +23,13 @@ const ApplicationForm = ({startFrom}) => {
     setApplicationDetailsLoading(true);
     let res;
     try {
-      res = await axios.get(process.env.REACT_APP_BACKEND_BASEPATH + `/applications/${userDetails?.user?.id}`, {
+      res = await axios.get(process.env.REACT_APP_BACKEND_BASEPATH + `/applications/getApplicationByUser`, {
         withCredentials: true
       });
       setApplicationDetails(res.data);
-      if (res.data?.academicDetails != null) {
+      if (res.data?.status !== "DRAFT"){
+        setCurrent(4);
+      } else if (res.data?.academicDetails != null) {
         setCurrent(3)
       } else if (res.data?.basicDetails != null){
           setCurrent(2);
@@ -49,11 +52,20 @@ const ApplicationForm = ({startFrom}) => {
     }
   }
 
-  useEffect(() => {
-    if(userDetails?.user?.id) {
-      fetchApplicationDetails();
+  const updateApplicationData = async () => {
+    try {
+      const res = await axios.get(process.env.REACT_APP_BACKEND_BASEPATH + `/applications/getApplicationByUser`, {
+        withCredentials: true
+      });
+      setApplicationDetails(res.data);
+    } catch (error) {
+      console.log(error);
     }
-  }, [])
+  }
+
+  useEffect(() => {
+    fetchApplicationDetails();
+  }, [current])
 
   const steps = [
     {
@@ -102,10 +114,11 @@ const ApplicationForm = ({startFrom}) => {
         minHeight: 'calc(100vh - 200px)',
         backgroundColor: '#fff',
       }}>
-        {current === 0 && <TermsAndConditions setTermsLoading={setTermsLoading} setCurrent={setCurrent} />}
+        {current === 0 && <TermsAndConditions setTermsLoading={setTermsLoading} setCurrent={setCurrent} updateApplicationData={updateApplicationData} />}
         {current === 1 && <BasicDetails setBasicDetailsLoading={setBasicDetailsLoading} applicationDetailsLoading={applicationDetailsLoading} applicationDetails={applicationDetails} setCurrent={setCurrent} />  }
         {current === 2 && <AcademicDetails applicationDetails={applicationDetails} setCurrent={setCurrent} setAcademicDetailsLoading={setAcademicDetailsLoading} />}
-        {current === 3 && <FeePayment />}
+        {current === 3 && <FeePayment  applicationDetails={applicationDetails} setCurrent={setCurrent} />}
+        {current === 4 && <ConfirmApplication />}
       </div>
     </Card>
   )

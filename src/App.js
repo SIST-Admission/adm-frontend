@@ -6,9 +6,13 @@ import axios from 'axios';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import { setUser } from './reducers/userReducer'
-import { useDispatch } from 'react-redux';
-import ApplicationDashboard from './pages/ApplicationDashboard.js';
+import { useDispatch, useSelector } from 'react-redux';
+import ApplicationDashboard from './pages/ApplicationDashboard/index.js';
 import ApplicationForm from './pages/AppplicationForm';
+import AdminRoute from './AdminRoute';
+import AdminDashboard from './pages/AdminDashboard';
+import ApplicationsPage from './pages/ApplicationsPage';
+import Application from './pages/ApplicationsPage/Application';
 
 const SiteLayout = lazy(() => import('./components/SiteLayout'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -18,7 +22,8 @@ function App() {
   const dispatch = useDispatch();
   const [api, contextHolder] = notification.useNotification();
   const [loginLoading, setLoginLoading] = useState(false);
-  
+  const userDetails = useSelector(state => state.userStore.user);
+
   const checkLogin = async () => {
     setLoginLoading(true);
     try {
@@ -57,11 +62,17 @@ function App() {
       <Suspense fallback={<Spinner size='lg'>Loading</Spinner>}>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          
           {/* Protected Routes */}
-          <Route path='/bijay' element={<ProtectedRoute path="/bijay"><h1>Home</h1></ProtectedRoute>} />
-          <Route path='/' element={<ProtectedRoute path="/"><ApplicationDashboard /></ProtectedRoute>} />
+          <Route path='/' element={<ProtectedRoute path="/">
+              {userDetails?.user?.role === 'ADMIN' ? <AdminDashboard /> : <ApplicationDashboard />}
+            </ProtectedRoute>} />
           <Route path='/apply' element={<ProtectedRoute path="/"><ApplicationForm /></ProtectedRoute>} />
+          <Route path='/applications' element={<AdminRoute path="/applications">
+              <ApplicationsPage />
+          </AdminRoute>} />
+          <Route path='/applications/:id' element={<AdminRoute path="/applications/:id">
+            <Application />
+          </AdminRoute>} />
         </Routes>
       </Suspense>
     </SiteLayout>
