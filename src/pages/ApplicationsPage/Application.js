@@ -127,9 +127,6 @@ const Application = ({mode}) => {
                 alignItems: 'center',
               }}>
                 <span>Digital Document Verification </span>
-                {!loading && <>
-                  {application?.status === 'SUBMITTED' ? <Tag icon={<ExclamationCircleOutlined />} color='orange'>Pending</Tag> : application?.status === 'APPROVED' ? <Tag icon={<CheckCircleOutlined />} color='green'>Approved</Tag> : <Tag icon={<CloseCircleOutlined />} color='red'>Rejected</Tag>}
-                </>}
               </Space>
             </span>
           </Space>
@@ -139,15 +136,9 @@ const Application = ({mode}) => {
             margin: '1em',
             marginBottom: '0.5em',
           }}>
-              {
-                application?.submissions.map(s => <div>
-                  <Tag color='blue' style={{
-                    fontSize: '1em',
-                  }}>
-                    {s.departmentCode}
-                  </Tag>
-                </div>)
-              }
+              {!loading && <>
+                  {application?.status === 'SUBMITTED' ? <Tag icon={<ExclamationCircleOutlined />} color='orange'>Pending</Tag> : application?.status === 'APPROVED' ? <Tag icon={<CheckCircleOutlined />} color='green'>Approved</Tag> : <Tag icon={<CloseCircleOutlined />} color='red'>Rejected</Tag>}
+                </>}
             </div>
         </div>
         <Row style={{
@@ -159,7 +150,17 @@ const Application = ({mode}) => {
                 <Descriptions bordered column={2} title="Application Details">
                   <Descriptions.Item label="Application ID">{application?.id}</Descriptions.Item>
                   <Descriptions.Item label="Application Type">{application?.applicationType}</Descriptions.Item>
-                  <Descriptions.Item label="Application Status"><Tag color='yellow'>{application?.status}</Tag></Descriptions.Item>
+                  <Descriptions.Item label="Applied For">
+                   {
+                      application?.submissions.map(s => <div>
+                        <Tag color='blue' style={{
+                          fontSize: '1em',
+                        }}>
+                          {s.departmentCode}
+                        </Tag>
+                      </div>)
+                    }
+                  </Descriptions.Item>
                   <Descriptions.Item label="Submission Date">{moment(application?.paymentDetails?.paymentDate).format("DD/MM/YYYY")}</Descriptions.Item>
                 </Descriptions>
                 <Divider />

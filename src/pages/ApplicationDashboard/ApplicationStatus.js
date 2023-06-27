@@ -1,13 +1,20 @@
-import { Button, Timeline, Typography } from 'antd';
+import { useState } from 'react';
+import { Button, Card, List, Timeline, Typography } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const ApplicationStatus = ({ applicationDetails }) => {
   const navigate = useNavigate();
   const { Text } = Typography;
   const ProceedButton = () => <Button size="small" onClick={() => navigate('/apply')} >Proceed</Button>;
-  
-  // if (applicationDetails.id == undefined) return (<p>Application Not Submitted</p>)
+  const [isInMeritList, setIsInMeritList] = useState(false);
+  useEffect(() => {
+    applicationDetails?.submissions?.forEach(s => {
+      if(s.meritListId !== null) setIsInMeritList(true)
+    });
+  }, [applicationDetails]);
+ 
   const applicationStatus = [
     {
       children: (<>
@@ -170,8 +177,8 @@ const ApplicationStatus = ({ applicationDetails }) => {
     {
       title: 'Admission Approval',
       description: 'You will get the admission approval once you make it to the merit list.',
-      dot: applicationDetails?.status === 'APPROVED' ? (<ClockCircleOutlined className="timeline-clock-icon" style={{fontSize: '16px', color:'#FAAD14'}} />) : "",
-      children: applicationDetails?.status === 'APPROVED' ? (<>
+      dot: applicationDetails?.status !== 'APPROVED' ? "" :applicationDetails?.status === 'APPROVED' && !isInMeritList? (<ClockCircleOutlined className="timeline-clock-icon" style={{fontSize: '16px', color:'#FAAD14'}} />) : "",
+      children: applicationDetails?.status !== 'APPROVED' ? <>Admission Approval</> : applicationDetails?.status === 'APPROVED' && !isInMeritList ? (<>
         <Text type="warning" style={{
           fontSize: '1em',
         }}>Admission Approval</Text>
@@ -185,8 +192,54 @@ const ApplicationStatus = ({ applicationDetails }) => {
          Once you get the admission approval, you will be able to pay the admission fee 
          for Provisional Admission.
         </span>
-      </>) : "Admission Approval",
-      color: 'grey'
+      </>) : <>
+        <Text type="success" style={{
+          fontSize: '1em',
+        }}>Admission Approval</Text>
+        <span style={{
+          display: 'block',
+          fontSize: '12px',
+          color: '#999',
+          display: 'block',
+          marginBottom: '10px'
+        }}>You have been approved for admission.</span>
+        <span style={{
+          display: 'block',
+          fontSize: '12px',
+          color: '#999',
+          display: 'block',
+          marginLeft: '10px',
+        }}>Your Submissions Status</span>
+        {applicationDetails?.submissions?.map((s, index) => <>
+          <Card style={{
+            width: '40%',
+            marginBottom: '10px'
+          }}>
+            <Text strong>Department:</Text> <Text >{s.departmentCode === 'CSE' ? "Computer Engineering" : s.departmentCode === 'CVL' ? "Civil Engineering" : s.departmentCode}</Text> <br/>
+            <Text strong>Merit Status:</Text> {s.meritListId !== null ? <Text type='success'>Enlisted</Text>: <Text type="warning">Pending</Text>}<br/>
+            {s.meritListId === null ? <Text style={{
+              display: 'block',
+              color: '#999',
+              fontSize: '12px',
+              marginTop: '10px'
+            }}>
+              Your application is under review for this department.
+              You may wait for this department or may get admission in other department.
+            </Text> : <Text style={{
+              display: 'block',
+              color: '#999',
+              fontSize: '12px',
+            }}>
+              Congratulations! You have been enlisted in the merit list for this department.
+              </Text>}
+            {s.meritListId !== null && <Button type="primary" style={{
+              marginTop: '10px'
+            }}
+            onClick={() => navigate(`/admission/${s.id}`)}
+            >Pay Admission Fee</Button>}
+          </Card>
+        </>)}
+      </>,
     },
    
     {

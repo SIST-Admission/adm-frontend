@@ -13,6 +13,10 @@ import AdminRoute from './AdminRoute';
 import AdminDashboard from './pages/AdminDashboard';
 import ApplicationsPage from './pages/ApplicationsPage';
 import Application from './pages/ApplicationsPage/Application';
+import MeritListPage from './pages/MeritListPage';
+import CreateMeritList from './pages/MeritListPage/CreateMeritList';
+import ListDetails from './pages/MeritListPage/ListDetails';
+import AdmissionPage from './pages/Admission';
 
 const SiteLayout = lazy(() => import('./components/SiteLayout'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -67,12 +71,23 @@ function App() {
               {userDetails?.user?.role === 'ADMIN' ? <AdminDashboard /> : <ApplicationDashboard />}
             </ProtectedRoute>} />
           <Route path='/apply' element={<ProtectedRoute path="/"><ApplicationForm /></ProtectedRoute>} />
+          <Route path='/admission/:submissionId' element={<ProtectedRoute path="/admission/:submissionId"><AdmissionPage /></ProtectedRoute>} />
           <Route path='/applications' element={<AdminRoute path="/applications">
               <ApplicationsPage />
           </AdminRoute>} />
           <Route path='/applications/:id' element={<AdminRoute path="/applications/:id">
             <Application />
           </AdminRoute>} />
+          <Route path='/meritLists' element={<AdminRoute path="/meritLists">
+            <MeritListPage />
+          </AdminRoute>} />
+          <Route path='/meritLists/new' element={<AdminRoute path="/meritLists/new">
+            <CreateMeritList />
+          </AdminRoute>} />
+          <Route path='/meritLists/details/:id' element={<AdminRoute path="/meritLists/details/:id">
+            <ListDetails />
+          </AdminRoute>} />
+          
         </Routes>
       </Suspense>
     </SiteLayout>

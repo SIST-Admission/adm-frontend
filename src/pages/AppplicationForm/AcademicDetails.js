@@ -209,28 +209,6 @@ const ClassXIISubjectWiseDetails = () => <>
       errors.push("Subjects cannot be duplicated");
     }
 
-    let subjectsTotalMarks = [];
-    subjectsTotalMarks.push(Number(values?.xii_totalMarks_1));
-    subjectsTotalMarks.push(Number(values?.xii_totalMarks_2));
-    subjectsTotalMarks.push(Number(values?.xii_totalMarks_3));
-  
-    let subjectsMarksObtained = [];
-    subjectsMarksObtained.push(Number(values?.xii_marksObtained_1));
-    subjectsMarksObtained.push(Number(values?.xii_marksObtained_2));
-    subjectsMarksObtained.push(Number(values?.xii_marksObtained_3));
-  
-
-    let totalMarks = subjectsTotalMarks.reduce((a, b) => a + b, 0);
-    let totalMarksObtained = subjectsMarksObtained.reduce((a, b) => a + b, 0);
-    let totalPercentage = totalMarksObtained / totalMarks * 100;
-    setXiiTotalMarks(totalMarks);
-    setXiiObtainedMarks(totalMarksObtained);
-    setXiiComputedPercentage(totalPercentage);
-
-    if (totalPercentage < 45){
-      errors.push("You must have passed Class XII with minimum 45% marks for applying to this course");
-    }
-
     console.log("Errors Class XII", errors);
     return errors;
   }
@@ -249,17 +227,41 @@ const ClassXIISubjectWiseDetails = () => <>
       } else {
         // Validate Diploma
       }
-
       if (errors.length > 0) {
         errors.forEach(error => api.error({
           message: error
         }));
         return;
       }
-
+      
       if (values.x_percentage <= 10){
         // Convert CGPA to Percentage
         values.x_percentage = values.x_percentage * 9.5;
+      }
+
+      let subjectsTotalMarks = [];
+      subjectsTotalMarks.push(Number(values?.xii_totalMarks_1));
+      subjectsTotalMarks.push(Number(values?.xii_totalMarks_2));
+      subjectsTotalMarks.push(Number(values?.xii_totalMarks_3));
+    
+      let subjectsMarksObtained = [];
+      subjectsMarksObtained.push(Number(values?.xii_marksObtained_1));
+      subjectsMarksObtained.push(Number(values?.xii_marksObtained_2));
+      subjectsMarksObtained.push(Number(values?.xii_marksObtained_3));
+    
+
+      let totalMarks = subjectsTotalMarks.reduce((a, b) => a + b, 0);
+      let totalMarksObtained = subjectsMarksObtained.reduce((a, b) => a + b, 0);
+      let totalPercentage = totalMarksObtained / totalMarks * 100;
+      setXiiTotalMarks(totalMarks);
+      setXiiObtainedMarks(totalMarksObtained);
+      setXiiComputedPercentage(totalPercentage);
+
+      if (totalPercentage < 45){
+        api.error({
+          message: "You must have passed Class XII with minimum 45% marks for applying to this course"
+        });
+        return;
       }
 
       console.log("Success Values", values);
@@ -294,7 +296,7 @@ const ClassXIISubjectWiseDetails = () => <>
           boardName: values.xii_board,
           rollNumber: values.xii_rollNumber,
           yearOfPass: moment(values.xii_yearOfPassing).format("YYYY"),
-          percentage: xiiComputedPercentage,
+          percentage: totalPercentage,
           totalMarks: xiiTotalMarks,
           obtained: xiiObtainedMarks,
           subjects: [

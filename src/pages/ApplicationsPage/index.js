@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Avatar, Card, Segmented, Table, Tag, notification } from "antd";
+import { Avatar, Button, Card, Segmented, Space, Table, Tag, notification } from "antd";
 import { ExclamationCircleOutlined, CheckCircleOutlined , CloseCircleOutlined, EyeFilled, LeftOutlined, ArrowLeftOutlined} from '@ant-design/icons';
 import { string } from "i/lib/util";
 import moment from "moment";
@@ -149,7 +149,10 @@ const ApplicationsPage = () => {
                 alignItems: 'center',
                 border: '2px px solid #000',
             }}>
+                <Space>
+                <Button shape='circle' icon={<ArrowLeftOutlined />} onClick={() => navigate('/')} />
                 <h3>Applications</h3>
+                </Space>
                 <div>
                     <Segmented onChange={(value) => {
                         setAppCategory(value)
