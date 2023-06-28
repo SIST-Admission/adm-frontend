@@ -17,6 +17,7 @@ import MeritListPage from './pages/MeritListPage';
 import CreateMeritList from './pages/MeritListPage/CreateMeritList';
 import ListDetails from './pages/MeritListPage/ListDetails';
 import AdmissionPage from './pages/Admission';
+import RegisterPage from './pages/RegisterPage';
 
 const SiteLayout = lazy(() => import('./components/SiteLayout'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -66,6 +67,7 @@ function App() {
       <Suspense fallback={<Spinner size='lg'>Loading</Spinner>}>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           {/* Protected Routes */}
           <Route path='/' element={<ProtectedRoute path="/">
               {userDetails?.user?.role === 'ADMIN' ? <AdminDashboard /> : <ApplicationDashboard />}

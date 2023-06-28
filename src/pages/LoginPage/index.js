@@ -92,8 +92,10 @@ const LoginPage = () => {
                 <LoginOutlined /> 
                 Login
               </Button>
-              <Button type="link" >
-                Forgot Password
+              <Button 
+              onClick={() => navigate('/register')}
+              type="link" >
+                New User? Register
               </Button>
             </div>
           </Card>

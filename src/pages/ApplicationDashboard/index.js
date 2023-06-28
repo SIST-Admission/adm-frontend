@@ -83,14 +83,16 @@ const ApplicationDashboard = () => {
                 <Button  style={{width: '48%'}}>Change Password</Button>
               </div>
                 <Button
+                disabled={
+                  applicationDetailsLoading || applicationDetails?.status !== 'DRAFT'
+                }
                 onClick={() => {
-                  navigate('/apply?startFrom='+current);
+                  navigate('/apply');
                 }}
                  type="primary" style={{width: '100%', marginTop: '1em'}}>
                   {applicationDetailsLoading ? <LoadingOutlined /> : (
                     applicationDetails?.basicDetails?.id || applicationDetails?.id != 0 ? 'Continue Application' : 'Start Application'
                   )}
-                  
                   </Button>
               </Card>
           </div>

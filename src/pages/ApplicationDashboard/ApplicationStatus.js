@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Children, useState } from 'react';
 import { Button, Card, List, Timeline, Typography } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -9,9 +9,15 @@ const ApplicationStatus = ({ applicationDetails }) => {
   const { Text } = Typography;
   const ProceedButton = () => <Button size="small" onClick={() => navigate('/apply')} >Proceed</Button>;
   const [isInMeritList, setIsInMeritList] = useState(false);
+  const [isAdmitted, setIsAdmitted] = useState(false);
+  const [admissionDetails, setAdmissionDetails] = useState(null);
   useEffect(() => {
     applicationDetails?.submissions?.forEach(s => {
       if(s.meritListId !== null) setIsInMeritList(true)
+      if(s.isAdmitted) {
+        setIsAdmitted(true)
+        setAdmissionDetails(s)
+      }
     });
   }, [applicationDetails]);
  
@@ -178,7 +184,10 @@ const ApplicationStatus = ({ applicationDetails }) => {
       title: 'Admission Approval',
       description: 'You will get the admission approval once you make it to the merit list.',
       dot: applicationDetails?.status !== 'APPROVED' ? "" :applicationDetails?.status === 'APPROVED' && !isInMeritList? (<ClockCircleOutlined className="timeline-clock-icon" style={{fontSize: '16px', color:'#FAAD14'}} />) : "",
-      children: applicationDetails?.status !== 'APPROVED' ? <>Admission Approval</> : applicationDetails?.status === 'APPROVED' && !isInMeritList ? (<>
+      color: applicationDetails?.status !== 'APPROVED' ? 'grey' : applicationDetails?.status === 'APPROVED' && !isInMeritList ? '#FAAD14' : 'green',
+      children: isAdmitted ? <Text type='success'>
+        Admission Approved
+      </Text> :  applicationDetails?.status !== 'APPROVED' ? <>Admission Approval</> : applicationDetails?.status === 'APPROVED' && !isInMeritList ? (<>
         <Text type="warning" style={{
           fontSize: '1em',
         }}>Admission Approval</Text>
@@ -235,7 +244,10 @@ const ApplicationStatus = ({ applicationDetails }) => {
             {s.meritListId !== null && <Button type="primary" style={{
               marginTop: '10px'
             }}
-            onClick={() => navigate(`/admission/${s.id}`)}
+            onClick={() => {
+              window.scrollTo(0, 0)
+              navigate(`/admission/${s.id}`)
+            }}
             >Pay Admission Fee</Button>}
           </Card>
         </>)}
@@ -245,8 +257,34 @@ const ApplicationStatus = ({ applicationDetails }) => {
     {
       title: 'Successfull Admission',
       description: 'Successfull admission',
-      children: 'Successfull Admission',
-      color: 'grey'
+      children: isAdmitted ? <>
+        <Text type="success" style={{
+          fontSize: '1em',
+        }}>Successfull Admission</Text>
+        <span style={{
+          display: 'block',
+          fontSize: '12px',
+          color: '#999'
+        }}>You have been admitted to the College Provisionally.</span>
+        <Card style={{
+           width: '40%',
+           marginBottom: '10px'
+        }}>
+          <Text strong>Department:</Text> <Text >{admissionDetails?.departmentCode === 'CSE' ? "Computer Engineering" : admissionDetails?.departmentCode === 'CVL' ? "Civil Engineering" : admissionDetails.departmentCode}</Text> <br/>
+          <Text strong>Admission Status:</Text> {<Text type='success'>Successfull</Text>
+          }<br/>
+          <Button type="primary" style={{
+            marginTop: '10px'
+          }}
+          onClick={() => {
+            window.scrollTo(0, 0)
+            navigate(`/admission/${admissionDetails?.id}`)
+          }}
+          >Download Admission Letter</Button>
+        </Card>
+      </> : <>Successfull Admission
+      </>,
+      color: isAdmitted ? 'green' : 'grey',
     }
 
   ];

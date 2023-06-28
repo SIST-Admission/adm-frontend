@@ -58,6 +58,7 @@ const SiteLayout = ({ children }) => {
 
           {userDetails?.isSignedIn ? (
             <>
+              <Navbar.Link className='nav-link' onClick={() => navigate('/')} isActive={pathname == '/dashboard'}>Dashboard</Navbar.Link>
               <Navbar.Link onClick={() => logout()} className='nav-link' isActive={pathname == '/logout'}>
                Log out
               </Navbar.Link>

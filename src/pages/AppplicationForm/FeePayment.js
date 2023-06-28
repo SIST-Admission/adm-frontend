@@ -223,12 +223,6 @@ const FeePayment = ({
                         }} 
                         message="Payment Successfull" 
                         description="Your payment was successfull. You may now proceed to the next step."
-                        action={
-                            <Button type="primary" style={{
-                                marginTop: '1em',
-                                backgroundColor: 'green',
-                            }} onClick={() => setCurrent(2)}>Download Reciept</Button>
-                        }
                         type="success" showIcon />
                     </Col>
                 </>)}

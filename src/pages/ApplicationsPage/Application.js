@@ -238,15 +238,15 @@ const Application = ({mode}) => {
                 </>}
                 {application?.academicDetails?.jeeMainsRank && <>
                 <Descriptions bordered column={2} title="Joint Entrance Examination (JEE) Mains">
-                  <Descriptions.Item label="CUCET Rank">{application?.academicDetails?.jeeMainsRank}</Descriptions.Item>
-                  <Descriptions.Item label="CUCET Score">{application?.academicDetails?.jeeMainsMarks}</Descriptions.Item>
+                  <Descriptions.Item label="JEE Mains Rank">{application?.academicDetails?.jeeMainsRank}</Descriptions.Item>
+                  <Descriptions.Item label="Score">{application?.academicDetails?.jeeMainsMarks}</Descriptions.Item>
                 </Descriptions>
                 <Divider />
                 </>}
                 {application?.academicDetails?.jeeAdvancedRank && <>
-                <Descriptions bordered column={2} title="Joint Entrance Examination (JEE) Mains">
-                  <Descriptions.Item label="CUCET Rank">{application?.academicDetails?.jeeMainsRank}</Descriptions.Item>
-                  <Descriptions.Item label="CUCET Score">{application?.academicDetails?.jeeMainsMarks}</Descriptions.Item>
+                <Descriptions bordered column={2} title="Joint Entrance Examination (JEE) Advanced">
+                  <Descriptions.Item label="JEE Adv Rank">{application?.academicDetails?.jeeAdvancedRank}</Descriptions.Item>
+                  <Descriptions.Item label="Score">{application?.academicDetails?.jeeAdvancedRank}</Descriptions.Item>
                 </Descriptions>
                 <Divider />
                 </>}

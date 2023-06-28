@@ -88,14 +88,14 @@ const CreateMeritList = () => {
             rules={[{ required: true, message: 'Please select a date!' }]}
             >
                 <DatePicker 
-                    disabledDate={(current) => current && current < moment().endOf('day')}
+                   
                 style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item label='Merit List Publish Date' name='publishDate'
             rules={[{ required: true, message: 'Please select a date!' }]}
             >
                 <DatePicker
-                    disabledDate={(current) => current && current < moment().endOf('day')}
+                   
                 style={{ width: '100%' }} />
             </Form.Item>
             <Button type='primary' onClick={saveBasicDetails} style={{width: '100%'}}>Next</Button>
@@ -137,6 +137,7 @@ const CreateMeritList = () => {
                     admitted: candidate?.isAdmitted,
                     appId: candidate?.application?.id,
                     diplomaPercentage: candidate?.application?.academic_details?.diplomaDetails?.cgpa,
+                    appId: candidate?.application?.id,
                 }
             });
             console.log(candidates);
@@ -164,7 +165,7 @@ const CreateMeritList = () => {
             key: 'name',
             render: (text, record) => <Space>
                 <Avatar src={record.photo} />
-                <span onClick={() => window.open("http://localhost:3000", "Application", "height=800,width=12000")}>{text}</span>
+                <a onClick={() => window.open(`${process.env.REACT_APP_URL}/applications/${record.appId}`)}>{text}</a>
             </Space>,
             },
             {
